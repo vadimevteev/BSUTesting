@@ -17,7 +17,7 @@ public class WebDriverBiletixTest {
 
     }
 
-    @Test(description = "later")
+    @Test
     public void goodTest() {
         String destinationPoint = "Minsk";
         String errorMessageExpected = "Упс! А билетов и нет";
