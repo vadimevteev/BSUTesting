@@ -18,7 +18,7 @@ public class WebDriverBiletixTest {
     }
 
     @Test
-    public void goodTest() {
+    public void findTicketsWithSameDepartureAndArrivalTest() {
         String destinationPoint = "Minsk";
         String errorMessageExpected = "Упс! А билетов и нет";
 
