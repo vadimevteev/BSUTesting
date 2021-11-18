@@ -15,7 +15,7 @@ public class WebDriverBiletixTest {
     @BeforeMethod(alwaysRun = true)
     public void browserSetUp(){
        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless");
+        options.addArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage");
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
 
