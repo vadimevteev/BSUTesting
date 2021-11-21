@@ -15,7 +15,7 @@ public class BiletixHomePage extends AbstractPage{
     private static final String DEPARTURE_FORM_XPATH = "//*[@id=\"departure\"]";
     private static final String ARRIVAL_FORM_XPATH = "//*[@id=\"arrival\"]";
     private static final String FIND_BUTTON_XPATH = "//*[@id=\"app-wl-avia\"]/div/div/div[4]/div[2]/div[1]/div[6]";
-    private static final String ERROR_MESSAGE_XPATH = "//*[@id=\"tickets-no-found\"]/h6";
+    private static final String ERROR_MESSAGE_XPATH = "//*[@id=\"tickets-no-found\"]";
 
 
     @FindBy(xpath = DEPARTURE_FORM_XPATH)
@@ -55,10 +55,10 @@ public class BiletixHomePage extends AbstractPage{
         return this;
     }
 
-    public String getErrorMessageText(){
+    public boolean getErrorMessageText(){
 
             new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                     .until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(ERROR_MESSAGE_XPATH)));
-            return driver.findElement(By.xpath(ERROR_MESSAGE_XPATH)).getText();
+            return driver.findElements(By.xpath(ERROR_MESSAGE_XPATH)).size() > 0;
     }
 }
