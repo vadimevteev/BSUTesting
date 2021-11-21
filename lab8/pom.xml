@@ -31,8 +31,7 @@
         </dependency>
 
     </dependencies>
-          <fork>true</fork>
-     <executable>C:/Users/Test/.jdks/openjdk-15.0.2/bin/javac</executable>
+    
 
 
 </project>
