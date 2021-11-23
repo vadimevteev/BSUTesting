@@ -55,7 +55,7 @@ public class BiletixHomePage extends AbstractPage{
         return this;
     }
 
-    public boolean getErrorMessageText(){
+    public boolean isPageContainsError(){
 
             new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                     .until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(ERROR_MESSAGE_XPATH)));
