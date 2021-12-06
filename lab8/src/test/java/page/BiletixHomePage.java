@@ -13,7 +13,7 @@ public class BiletixHomePage extends AbstractPage{
     private static final String BODY_XPATH = "//*[@id=\"__next\"]";
     private static final String DEPARTURE_FORM_XPATH = "//*[@id=\"departure\"]";
     private static final String ARRIVAL_FORM_XPATH = "//*[@id=\"arrival\"]";
-    private static final String FIND_BUTTON_XPATH = "//div[@class=\"btn-search triangle\" and starts-with(text(),\"Найти\")]";
+    private static final String FIND_BUTTON_XPATH = "//div[@class=\"btn-search triangle\"]";
     private static final String ERROR_MESSAGE_XPATH = "//*[@id=\"tickets-no-found\"]";  
 
 
