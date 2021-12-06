@@ -1,7 +1,6 @@
 package page;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -11,11 +10,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class BiletixHomePage extends AbstractPage{
 
     private static final String PAGE_URL = "http://biletix.ru/";
-    private static final String HEADER_XPATH = "//*[@id=\"__next\"]/div[2]/div[4]/div[1]/div";
+    private static final String BODY_XPATH = "//*[@id=\"__next\"]";
     private static final String DEPARTURE_FORM_XPATH = "//*[@id=\"departure\"]";
     private static final String ARRIVAL_FORM_XPATH = "//*[@id=\"arrival\"]";
-    private static final String FIND_BUTTON_XPATH = "//*[@id=\"app-wl-avia\"]/div/div/div[4]/div[2]/div[1]/div[6]";
-    private static final String ERROR_MESSAGE_XPATH = "//*[@id=\"tickets-no-found\"]";
+    private static final String FIND_BUTTON_XPATH = "//div[@class=\"btn-search triangle\" and starts-with(text(),\"Найти\")]";
+    private static final String ERROR_MESSAGE_XPATH = "//*[@id=\"tickets-no-found\"]";  
 
 
     @FindBy(xpath = DEPARTURE_FORM_XPATH)
@@ -35,21 +34,27 @@ public class BiletixHomePage extends AbstractPage{
     public BiletixHomePage openPage(){
         driver.get(PAGE_URL);
         new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
-            .until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(HEADER_XPATH)));
+            .until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(BODY_XPATH)));
         return this;
     }
 
     public BiletixHomePage fillDepartureForm(String departurePoint){
+        new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
+                .until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(DEPARTURE_FORM_XPATH)));
         departureForm.sendKeys(departurePoint);
         return this;
     }
 
     public BiletixHomePage fillArrivalForm(String arrivalPoint){
+        new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
+                .until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(ARRIVAL_FORM_XPATH)));
         arrivalForm.sendKeys(arrivalPoint);
         return this;
     }
 
     public BiletixHomePage pressFindButton(){
+        new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
+                .until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(FIND_BUTTON_XPATH)));
         findButton.click();
 
         return this;
