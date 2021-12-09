@@ -29,14 +29,15 @@ public class WebDriverBiletixTest {
     @Test
     public void findTicketsWithSameDepartureAndArrivalTest() {
         String destinationPoint = "Minsk";
-
+        String errorMessageExpected = "Упс! А билетов и нет";
 
         BiletixHomePage homePage = new BiletixHomePage(driver)
                 .openPage()
                 .fillArrivalForm(destinationPoint)
                 .fillDepartureForm(destinationPoint)
                 .pressFindButton();
-        Assert.assertTrue(homePage.isPageContainsError());
+        
+        Assert.assertEquals(homePage.getErrorMessage(), errorMessageExpected);
 
     }
 
