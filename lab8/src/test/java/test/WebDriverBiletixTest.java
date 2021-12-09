@@ -36,8 +36,8 @@ public class WebDriverBiletixTest {
                 .fillArrivalForm(destinationPoint)
                 .fillDepartureForm(destinationPoint)
                 .pressFindButton();
-        
-        Assert.assertEquals(homePage.getErrorMessage(), errorMessageExpected);
+
+        Assert.assertEquals(errorMessageExpected, homePage.getErrorMessage());
 
     }
 

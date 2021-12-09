@@ -15,8 +15,6 @@ public class BiletixHomePage extends AbstractPage{
     private static final String ARRIVAL_FORM_XPATH = "//*[@id=\"arrival\"]";
     private static final String FIND_BUTTON_XPATH = "//div[@class=\"btn-search triangle\"]";
     private static final String ERROR_MESSAGE_XPATH = "//*[@id=\"tickets-no-found\"]/h6";
-    
-
 
 
     @FindBy(xpath = DEPARTURE_FORM_XPATH)
@@ -29,43 +27,34 @@ public class BiletixHomePage extends AbstractPage{
     private WebElement findButton;
 
 
+
     public BiletixHomePage(WebDriver driver) {
         super(driver);
     }
 
     public BiletixHomePage openPage(){
         driver.get(PAGE_URL);
-        new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
-            .until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(BODY_XPATH)));
         return this;
     }
 
     public BiletixHomePage fillDepartureForm(String departurePoint){
-        new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
-                .until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(DEPARTURE_FORM_XPATH)));
         departureForm.sendKeys(departurePoint);
         return this;
     }
 
     public BiletixHomePage fillArrivalForm(String arrivalPoint){
-        new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
-                .until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(ARRIVAL_FORM_XPATH)));
         arrivalForm.sendKeys(arrivalPoint);
         return this;
     }
 
     public BiletixHomePage pressFindButton(){
-        new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
-                .until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(FIND_BUTTON_XPATH)));
         findButton.click();
-
         return this;
     }
 
     public String getErrorMessage(){
-
-            new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
-                    .until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(ERROR_MESSAGE_XPATH)));
-            return driver.findElement(By.xpath(ERROR_MESSAGE_XPATH)).getText();
+        return new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
+                    .until(ExpectedConditions.presenceOfElementLocated(By.xpath(ERROR_MESSAGE_XPATH)))
+                    .getText();
     }
 }
