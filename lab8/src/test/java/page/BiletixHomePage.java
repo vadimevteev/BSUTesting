@@ -1,11 +1,15 @@
 package page;
 
+import model.SearchForm;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class BiletixHomePage extends AbstractPage{
 
@@ -37,15 +41,12 @@ public class BiletixHomePage extends AbstractPage{
         return this;
     }
 
-    public BiletixHomePage fillDepartureForm(String departurePoint){
-        departureForm.sendKeys(departurePoint);
+    public BiletixHomePage fillSearchForm(SearchForm searchForm){
+        arrivalForm.sendKeys(searchForm.getArrivalFormText());
+        departureForm.sendKeys(searchForm.getDepartureFormText());
         return this;
     }
 
-    public BiletixHomePage fillArrivalForm(String arrivalPoint){
-        arrivalForm.sendKeys(arrivalPoint);
-        return this;
-    }
 
     public BiletixHomePage pressFindButton(){
         findButton.click();
@@ -53,8 +54,10 @@ public class BiletixHomePage extends AbstractPage{
     }
 
     public String getErrorMessage(){
-        return new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
+
+        return new String(new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
                     .until(ExpectedConditions.presenceOfElementLocated(By.xpath(ERROR_MESSAGE_XPATH)))
-                    .getText();
+                    .getText()
+                    .getBytes(StandardCharsets.UTF_8));
     }
 }

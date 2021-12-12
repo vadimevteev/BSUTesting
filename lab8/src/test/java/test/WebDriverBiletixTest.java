@@ -1,5 +1,6 @@
 package test;
 
+import model.SearchForm;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -8,42 +9,24 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import page.BiletixHomePage;
+import service.SearchFormCreator;
 
-public class WebDriverBiletixTest {
-    private WebDriver driver;
+public class WebDriverBiletixTest extends CommonConditions{
 
-    @BeforeMethod(alwaysRun = true)
-    public void browserSetUp(){
-       ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage", "--window-size=1920,1080",
-                "--disable-extensions", "--proxy-server='direct://'", "--proxy-bypass-list=*", "--start-maximized",
-                "--disable-gpu", "--ignore-certificate-errors");
-
-        options.addArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage");
-
-        driver = new ChromeDriver(options);
-        driver.manage().window().maximize();
-
-    }
 
     @Test
     public void findTicketsWithSameDepartureAndArrivalTest() {
-        String destinationPoint = "Minsk";
+
         String errorMessageExpected = "Упс! А билетов и нет";
 
-        BiletixHomePage homePage = new BiletixHomePage(driver)
+        SearchForm searchForm = SearchFormCreator.createFormWithSamePoints();
+        String errorMessage = new BiletixHomePage(driver)
                 .openPage()
-                .fillArrivalForm(destinationPoint)
-                .fillDepartureForm(destinationPoint)
-                .pressFindButton();
+                .fillSearchForm(searchForm)
+                .pressFindButton()
+                .getErrorMessage();
+        Assert.assertEquals(errorMessageExpected, errorMessage);
 
-        Assert.assertEquals(errorMessageExpected, homePage.getErrorMessage());
-
-    }
-
-    @AfterMethod(alwaysRun = true)
-    public void browserTearDown(){
-        driver.quit();
     }
 
 }
