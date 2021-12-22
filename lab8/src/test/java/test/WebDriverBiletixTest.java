@@ -28,6 +28,17 @@ public class WebDriverBiletixTest extends CommonConditions{
 
     }
 
-
+//    @Test
+//    public void findTicketsWithoutData(){
+//        String errorMessageExpected = "Укажите город вылета";
+//
+//        SearchForm searchForm = SearchFormCreator.createFormWithData();
+//
+//        String errorMessageActual = new BiletixHomePage(driver)
+//                .openPage()
+//                .fillSearchForm(searchForm)
+//                .pressFindButton()
+//
+//    }
 
 }
