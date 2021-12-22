@@ -13,20 +13,21 @@ import service.SearchFormCreator;
 
 public class WebDriverBiletixTest extends CommonConditions{
 
-
     @Test
     public void findTicketsWithSameDepartureAndArrivalTest() {
 
         String errorMessageExpected = "Упс! А билетов и нет";
 
         SearchForm searchForm = SearchFormCreator.createFormWithSamePoints();
-        String errorMessage = new BiletixHomePage(driver)
+        String errorMessageActual = new BiletixHomePage(driver)
                 .openPage()
                 .fillSearchForm(searchForm)
                 .pressFindButton()
                 .getErrorMessage();
-        Assert.assertEquals(errorMessageExpected, errorMessage);
+        Assert.assertEquals(errorMessageExpected, errorMessageActual);
 
     }
+
+
 
 }
