@@ -1,6 +1,6 @@
 package page;
 
-import model.SearchForm;
+import model.Search;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
@@ -12,16 +12,19 @@ import utils.Waits;
 import java.nio.charset.StandardCharsets;
 
 
-public class BiletixHomePage extends AbstractPage{
+public class HomePage extends AbstractPage{
 
     private static final Logger logger = LogManager.getRootLogger();
     private static final String PAGE_URL = "http://biletix.ru/";
-    private static final String BODY_XPATH = "//*[@id=\"__next\"]";
+    private static final String RESULT_PAGE_URL = "https://biletix.ru/personal-data/";
     private static final String DEPARTURE_FORM_XPATH = "//*[@id=\"departure\"]";
     private static final String ARRIVAL_FORM_XPATH = "//*[@id=\"arrival\"]";
     private static final String FIND_BUTTON_XPATH = "//div[@class=\"btn-search triangle\"]";
     private static final String ERROR_MESSAGE_XPATH = "//*[@id=\"tickets-no-found\"]/h6";
     private static final String FIND_RESULT_XPATH = "//*[@class=\"wl-offer\"]";
+    private static final String DATE_INPUT_XPATH = "//*[@id=\"date-departure-input\"]";
+    private static final String RESULT_PAGE_BUTTON = " //button[contains(@class,'biletix-button')]";
+    private static final String DATE_INPUT_DAY_XPATH = "//div[contains(@class,'react-datepicker__day')]/div/span";
 
 
     @FindBy(xpath = DEPARTURE_FORM_XPATH)
@@ -35,25 +38,36 @@ public class BiletixHomePage extends AbstractPage{
 
 
 
-    public BiletixHomePage(WebDriver driver) {
+    public HomePage(WebDriver driver) {
         super(driver);
     }
 
-    @Override
-    public BiletixHomePage openPage(){
+    public HomePage openPage(){
         driver.get(PAGE_URL);
         logger.info("Home page opened");
         return this;
     }
 
-    public BiletixHomePage fillSearchForm(SearchForm searchForm){
+    public HomePage fillSearchForm(Search searchForm){
         departureForm.sendKeys(searchForm.getDepartureFormText());
         arrivalForm.sendKeys(searchForm.getArrivalFormText());
         return this;
     }
 
-    public BiletixHomePage pressFindButton(){
+    public HomePage pressFindButton(){
         findButton.click();
+        return this;
+    }
+
+    public PersonalDataPage selectResult() {
+        Waits.getWebElementUntilWait(driver, RESULT_PAGE_BUTTON).click();
+        Waits.isPageUrlToBe(driver, RESULT_PAGE_URL);
+        return new PersonalDataPage(driver);
+    }
+
+    public HomePage selectTomorrowDate(){
+        Waits.getWebElementUntilWait(driver,DATE_INPUT_XPATH).click();
+        Waits.getWebElementUntilWait(driver, "//*[@id=\"date-departure\"]/div[2]/div/div[2]/div[2]/div[4]/div[5]/div").click();
         return this;
     }
 
@@ -76,4 +90,5 @@ public class BiletixHomePage extends AbstractPage{
                 .getText()
                 .getBytes(StandardCharsets.UTF_8));
     }
+
 }

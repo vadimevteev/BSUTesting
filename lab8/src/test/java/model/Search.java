@@ -1,13 +1,16 @@
 package model;
 
-public class SearchForm {
+import java.util.Date;
+
+public class Search {
     private String arrivalFormText;
     private String departureFormText;
 
-    public SearchForm(String arrivalForm, String departureForm) {
+    public Search(String arrivalForm, String departureForm) {
         this.arrivalFormText = arrivalForm;
         this.departureFormText = departureForm;
     }
+
 
     public String getArrivalFormText() {
         return arrivalFormText;
@@ -28,8 +31,8 @@ public class SearchForm {
     @Override
     public boolean equals(Object obj) {
         if(this == obj) return true;
-        if(!(obj instanceof SearchForm)) return false;
-        SearchForm form = (SearchForm) obj;
+        if(!(obj instanceof Search)) return false;
+        Search form = (Search) obj;
         return form.arrivalFormText.equals(this.getArrivalFormText())
                 && form.departureFormText.equals(this.getDepartureFormText());
     }
