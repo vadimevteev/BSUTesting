@@ -63,4 +63,6 @@ public class PersonalDataTest extends CommonConditions{
 
         Assert.assertEquals(actualMessage, MESSAGE_FOR_PAY);
     }
+
+
 }
