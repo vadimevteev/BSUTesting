@@ -14,6 +14,7 @@ import java.nio.charset.StandardCharsets;
 
 public class PersonalDataPage extends AbstractPage{
 
+    private static final String PAGE_PAYMENT_URL = "https://biletix.ru/payment/";
     private static final String PAY_BUTTON_XPATH = "//*[@id=\"btnGoToPayment\"]";
     private static final String ERROR_NAME_XPATH = "//div[@class=\"passenger__error\"]";
     private static final String ERROR_PASSENGER_DATA_XPATH = "//div[@class=\"popup-error__description\"]";
@@ -25,6 +26,7 @@ public class PersonalDataPage extends AbstractPage{
     private static final String DOCUMENT_INPUT_XPATH = "//*[@id=\"docnumber_adult_1\"]";
     private static final String PHONE_INPUT_XPATH = "//*[@id=\"number\"]";
     private static final String MAIL_INPUT_XPATH = "//*[@id=\"letter\"]";
+    private static final String MESSAGE_FOR_PAY = "//*[@id=\"app_wl_avia_breadcrumbs\"]/div[@class=\"active\"]";
 
     private JavascriptExecutor js;
 
@@ -77,6 +79,13 @@ public class PersonalDataPage extends AbstractPage{
     public PersonalDataPage pressPayButton() {
         js.executeScript("arguments[0].click();",payButton);
         return this;
+    }
+
+    public String getMessageForPay() throws InterruptedException {
+        Waits.isPageUrlToBe(driver, PAGE_PAYMENT_URL);
+        return new String(Waits.getWebElementUntilWait(driver,MESSAGE_FOR_PAY)
+                .getText()
+                .getBytes(StandardCharsets.UTF_8));
     }
 
     public String getErrorDataMessage(){
