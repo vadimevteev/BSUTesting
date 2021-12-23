@@ -18,10 +18,6 @@ public class OrderPage extends AbstractPage{
     @FindBy(xpath = FIND_BUTTON_XPATH)
     private WebElement findButton;
 
-    @FindBy(xpath = ERROR_MESSAGE_XPATH)
-    private WebElement errorMessage;
-
-
     public OrderPage(WebDriver driver) {
         super(driver);
     }
