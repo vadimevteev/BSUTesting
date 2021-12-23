@@ -18,6 +18,10 @@ public class OrderPage extends AbstractPage{
     @FindBy(xpath = FIND_BUTTON_XPATH)
     private WebElement findButton;
 
+    @FindBy(xpath = ERROR_MESSAGE_XPATH)
+    private WebElement errorMessage;
+
+
     public OrderPage(WebDriver driver) {
         super(driver);
     }
@@ -31,6 +35,7 @@ public class OrderPage extends AbstractPage{
 
         String message = "";
         WebElement errorMessage = Waits.getWebElementUntilWait(driver, ERROR_MESSAGE_XPATH);
+
         if(Waits.isElementAttributeNotEmpty(driver,"style",errorMessage))
         {
             message = errorMessage.getText();
