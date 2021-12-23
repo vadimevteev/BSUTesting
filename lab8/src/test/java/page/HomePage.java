@@ -1,6 +1,6 @@
 package page;
 
-import model.Search;
+import model.Travel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
@@ -48,9 +48,9 @@ public class HomePage extends AbstractPage{
         return this;
     }
 
-    public HomePage fillSearchForm(Search searchForm){
-        departureForm.sendKeys(searchForm.getDepartureFormText());
-        arrivalForm.sendKeys(searchForm.getArrivalFormText());
+    public HomePage fillSearchForm(Travel travelForm){
+        departureForm.sendKeys(travelForm.getDepartureFormText());
+        arrivalForm.sendKeys(travelForm.getArrivalFormText());
         return this;
     }
 
@@ -62,6 +62,7 @@ public class HomePage extends AbstractPage{
     public PersonalDataPage selectResult() {
         Waits.getWebElementUntilWait(driver, RESULT_PAGE_BUTTON).click();
         Waits.isPageUrlToBe(driver, RESULT_PAGE_URL);
+        logger.info("Redirected to page Personal DataPage");
         return new PersonalDataPage(driver);
     }
 

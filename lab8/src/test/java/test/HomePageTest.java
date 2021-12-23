@@ -1,11 +1,10 @@
 package test;
 
-import model.Search;
+import model.Travel;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import page.HomePage;
-import page.PersonalDataPage;
-import service.SearchFormCreator;
+import service.TravelCreator;
 
 public class HomePageTest extends CommonConditions{
 
@@ -15,10 +14,10 @@ public class HomePageTest extends CommonConditions{
     @Test
     public void findTicketsWithoutData(){
 
-        Search searchForm = SearchFormCreator.createFormWithoutData();
+        Travel travelForm = TravelCreator.createFormWithoutData();
         String errorMessageActual = new HomePage(driver)
                 .openPage()
-                .fillSearchForm(searchForm)
+                .fillSearchForm(travelForm)
                 .pressFindButton()
                 .getHintMessageForDeparture();
 
@@ -28,10 +27,10 @@ public class HomePageTest extends CommonConditions{
     @Test
     public void findTicketsWithSameDepartureAndArrivalTest() {
 
-        Search searchForm = SearchFormCreator.createFormWithSamePoints();
+        Travel travelForm = TravelCreator.createFormWithSamePoints();
         String errorMessageActual = new HomePage(driver)
                 .openPage()
-                .fillSearchForm(searchForm)
+                .fillSearchForm(travelForm)
                 .pressFindButton()
                 .getErrorMessage();
         Assert.assertEquals(ERROR_TICKETS_NOT_FOUND, errorMessageActual);
@@ -41,11 +40,10 @@ public class HomePageTest extends CommonConditions{
     @Test
     public void findTicketsForSpecifiedCity() {
 
-        Search searchForm = SearchFormCreator.createFormWithData();
+        Travel travelForm = TravelCreator.createFormWithData();
         boolean isContainsResults = new HomePage(driver)
                 .openPage()
-                .fillSearchForm(searchForm)
-                .selectTomorrowDate()
+                .fillSearchForm(travelForm)
                 .pressFindButton()
                 .isPageContainsAtLeastOneFindResult();
         Assert.assertTrue(isContainsResults);
@@ -54,10 +52,10 @@ public class HomePageTest extends CommonConditions{
     @Test
     public void findTicketsToDistantTown() {
 
-        Search searchForm = SearchFormCreator.createFormWithDistantTown();
+        Travel travelForm = TravelCreator.createFormWithDistantTown();
         String errorMessageActual = new HomePage(driver)
                 .openPage()
-                .fillSearchForm(searchForm)
+                .fillSearchForm(travelForm)
                 .pressFindButton()
                 .getErrorMessage();
         Assert.assertEquals(ERROR_TICKETS_NOT_FOUND, errorMessageActual);
