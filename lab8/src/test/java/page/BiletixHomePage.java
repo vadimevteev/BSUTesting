@@ -7,10 +7,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import utils.Waits;
 
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 
@@ -23,6 +21,7 @@ public class BiletixHomePage extends AbstractPage{
     private static final String ARRIVAL_FORM_XPATH = "//*[@id=\"arrival\"]";
     private static final String FIND_BUTTON_XPATH = "//div[@class=\"btn-search triangle\"]";
     private static final String ERROR_MESSAGE_XPATH = "//*[@id=\"tickets-no-found\"]/h6";
+    private static final String FIND_RESULT_XPATH = "//*[@class=\"wl-offer\"]";
 
 
     @FindBy(xpath = DEPARTURE_FORM_XPATH)
@@ -48,8 +47,8 @@ public class BiletixHomePage extends AbstractPage{
     }
 
     public BiletixHomePage fillSearchForm(SearchForm searchForm){
-        arrivalForm.sendKeys(searchForm.getArrivalFormText());
         departureForm.sendKeys(searchForm.getDepartureFormText());
+        arrivalForm.sendKeys(searchForm.getArrivalFormText());
         return this;
     }
 
@@ -58,11 +57,23 @@ public class BiletixHomePage extends AbstractPage{
         return this;
     }
 
-    public String getErrorMessage(){
+    public String getHintMessageForDeparture(){
+        String message = "";
 
-        return new String(new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
-                    .until(ExpectedConditions.presenceOfElementLocated(By.xpath(ERROR_MESSAGE_XPATH)))
-                    .getText()
-                    .getBytes(StandardCharsets.UTF_8));
+        if(Waits.isElementAttributeNotEmpty(driver,"value",departureForm))
+            message = departureForm.getAttribute("value");
+
+        return new String(message.getBytes(StandardCharsets.UTF_8));
+    }
+
+    public boolean isPageContainsAtLeastOneFindResult() {
+        Waits.getWebElementUntilWait(driver, FIND_RESULT_XPATH);
+        return driver.findElements(By.xpath(FIND_RESULT_XPATH)).size() > 0;
+    }
+
+    public String getErrorMessage(){
+        return new String(Waits.getWebElementUntilWait(driver,ERROR_MESSAGE_XPATH)
+                .getText()
+                .getBytes(StandardCharsets.UTF_8));
     }
 }
