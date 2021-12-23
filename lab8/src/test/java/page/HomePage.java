@@ -10,12 +10,14 @@ import org.openqa.selenium.support.FindBy;
 import utils.Waits;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 
 public class HomePage extends AbstractPage{
 
     private static final Logger logger = LogManager.getRootLogger();
     private static final String PAGE_URL = "http://biletix.ru/";
+    private static final String ORDER_PAGE_URL = "https://travel.care/?from-blite";
     private static final String RESULT_PAGE_URL = "https://biletix.ru/personal-data/";
     private static final String DEPARTURE_FORM_XPATH = "//*[@id=\"departure\"]";
     private static final String ARRIVAL_FORM_XPATH = "//*[@id=\"arrival\"]";
@@ -24,6 +26,7 @@ public class HomePage extends AbstractPage{
     private static final String FIND_RESULT_XPATH = "//*[@class=\"wl-offer\"]";
     private static final String DATE_INPUT_XPATH = "//*[@id=\"date-departure-input\"]";
     private static final String RESULT_PAGE_BUTTON = " //button[contains(@class,'biletix-button')]";
+    private static final String FIND_ORDER_BUTTON = "//a[contains(@class,\"btn header__btn\")]";
     private static final String DATE_INPUT_DAY_XPATH = "//div[contains(@class,'react-datepicker__day')]/div/span";
 
 
@@ -35,6 +38,9 @@ public class HomePage extends AbstractPage{
 
     @FindBy (xpath = FIND_BUTTON_XPATH)
     private WebElement findButton;
+
+    @FindBy (xpath =  FIND_ORDER_BUTTON)
+    private WebElement orderButton;
 
 
 
@@ -54,6 +60,15 @@ public class HomePage extends AbstractPage{
         return this;
     }
 
+    public OrderPage pressOrderButton(){
+        orderButton.click();
+        ArrayList<String> tabs2 = new ArrayList<String> (driver.getWindowHandles());
+        driver.switchTo().window(tabs2.get(1));
+        logger.info("Redirected to order page");
+        Waits.isPageUrlToBe(driver, ORDER_PAGE_URL);
+        return new OrderPage(driver);
+    }
+
     public HomePage pressFindButton(){
         findButton.click();
         return this;
@@ -66,11 +81,6 @@ public class HomePage extends AbstractPage{
         return new PersonalDataPage(driver);
     }
 
-    public HomePage selectTomorrowDate(){
-        Waits.getWebElementUntilWait(driver,DATE_INPUT_XPATH).click();
-        Waits.getWebElementUntilWait(driver, "//*[@id=\"date-departure\"]/div[2]/div/div[2]/div[2]/div[4]/div[5]/div").click();
-        return this;
-    }
 
     public String getHintMessageForDeparture(){
         String message = "";
