@@ -81,7 +81,7 @@ public class PersonalDataPage extends AbstractPage{
         return this;
     }
 
-    public String getMessageForPay() throws InterruptedException {
+    public String getMessageForPay() {
         Waits.isPageUrlToBe(driver, PAGE_PAYMENT_URL);
         return new String(Waits.getWebElementUntilWait(driver,MESSAGE_FOR_PAY)
                 .getText()
