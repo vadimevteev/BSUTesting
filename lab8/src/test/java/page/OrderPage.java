@@ -1,12 +1,11 @@
 package page;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import utils.Waits;
+
 
 import java.nio.charset.StandardCharsets;
 
@@ -17,13 +16,11 @@ public class OrderPage extends AbstractPage{
 
     @FindBy(xpath = FIND_BUTTON_XPATH)
     private WebElement findButton;
-
-    @FindBy(xpath = ERROR_MESSAGE_XPATH)
-    private WebElement errorMessage;
-
+    private JavascriptExecutor js;
 
     public OrderPage(WebDriver driver) {
         super(driver);
+        js = (JavascriptExecutor)driver;
     }
 
     public OrderPage pressFindButton(){
@@ -33,14 +30,10 @@ public class OrderPage extends AbstractPage{
 
     public String getErrorMessage(){
 
-        String message = "";
-        WebElement errorMessage = Waits.getWebElementUntilWait(driver, ERROR_MESSAGE_XPATH);
-
-        if(Waits.isElementAttributeNotEmpty(driver,"style",errorMessage))
-        {
-            message = errorMessage.getText();
-        }
-        return new String(message.getBytes(StandardCharsets.UTF_8));
+        return new String(
+                ((String)js.executeScript("return arguments[0].innerHTML;",
+                        driver.findElement(By.xpath(ERROR_MESSAGE_XPATH))))
+                .getBytes(StandardCharsets.UTF_8));
     }
 
 
