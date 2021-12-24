@@ -18,6 +18,7 @@ public class OrderPage extends AbstractPage{
     private WebElement findButton;
     private JavascriptExecutor js;
 
+
     public OrderPage(WebDriver driver) {
         super(driver);
         js = (JavascriptExecutor)driver;
